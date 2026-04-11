@@ -112,7 +112,10 @@
       margin-left: auto;
       color: var(--text-muted);
       font-size: 12px;
-      padding-top: 2px;
+      padding-top: 0;
+      margin-top: -6px;
+      position: relative;
+      z-index: 2;
     }
     .badge {
       display: inline-flex;
@@ -236,6 +239,15 @@
       line-height: 1.8;
       font-size: 14px;
     }
+    .howto-contact-wrap {
+      margin-top: 14px;
+    }
+    .howto-contact-wrap .info-grid {
+      margin-top: 0;
+    }
+    .howto-contact-wrap .info-item {
+      background: rgba(255,255,255,0.03);
+    }
     .muted { color: var(--text-muted); }
     .lang-list {
       margin-top: 16px;
@@ -358,6 +370,40 @@
     .review-btn:hover {
       transform: translateY(-2px);
     }
+    .review-btn.disabled-link {
+      opacity: 0.58;
+      filter: grayscale(0.25);
+      cursor: not-allowed;
+    }
+    .review-btn.disabled-link:hover {
+      transform: none;
+    }
+    .review-btn.disabled-link .btn-badge-disabled {
+      border-radius: 999px;
+      border: 1px solid var(--chip-border);
+      background: rgba(0,0,0,0.22);
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    body.light-mode .review-btn.disabled-link .btn-badge-disabled {
+      background: rgba(60,60,60,0.08);
+    }
+    .disabled-inline-notice {
+      margin-top: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.5;
+      color: var(--text-main);
+      display: none;
+      opacity: 0;
+      transition: opacity .18s ease;
+    }
+    .disabled-inline-notice.show {
+      display: block;
+      opacity: 1;
+    }
     .review-row {
       display: flex;
       align-items: center;
@@ -437,7 +483,7 @@
       gap: 16px;
     }
     @media (min-width: 768px) {
-      .bottom-grid { grid-template-columns: repeat(3, 1fr); }
+      .bottom-grid { grid-template-columns: 1fr; }
     }
     .mini-card {
       border-radius: 24px;
@@ -495,15 +541,12 @@
             자주 사용하는 플랫폼을 선택해 간단한 리뷰를 남겨주세요. 고객님의 소중한 의견은 더 나은 서비스로 이어집니다.
           </div>
 
-          <div class="info-grid">
-            <div class="info-item">
-              <div class="info-label" id="addressLabel">Address</div>
-              <div class="info-value" id="addressValue">서울 중구 을지로 255 기승빌딩 1층</div>
-            </div>
-            <div class="info-item">
-              <div class="info-label" id="contactLabel">Contact</div>
-              <div class="info-value">010-4417-1443</div>
-            </div>
+          <div class="lang-list">
+            <button class="lang active" data-lang="ko">한국어</button>
+            <button class="lang" data-lang="en">English</button>
+            <button class="lang" data-lang="ja">日本語</button>
+            <button class="lang" data-lang="zh">中文</button>
+            <button class="lang" data-lang="ru">Русский</button>
           </div>
 
           <div class="howto">
@@ -512,15 +555,6 @@
             <div id="step2">2. 매장 페이지로 이동한 뒤 별점과 짧은 후기를 남겨주세요.</div>
             <div id="step3">3. 작성 후 직원에게 인증해주세요.</div>
             <div class="muted" id="stepNote">※ 버튼은 새 창으로 열리도록 설정되어 있습니다.</div>
-          </div>
-
-          <div class="lang-list">
-            <button class="lang active" data-lang="ko">한국어</button>
-            <button class="lang" data-lang="en">English</button>
-            <button class="lang" data-lang="ja">日本語</button>
-            <button class="lang" data-lang="zh">中文</button>
-            <button class="lang" data-lang="ru">Русский</button>
-          </div>
         </div>
       </section>
 
@@ -555,7 +589,7 @@
                 </div>
               </a>
 
-              <a class="review-btn" href="https://place.map.kakao.com/273813520#home/" target="_blank" rel="noreferrer">
+              <a class="review-btn disabled-link" href="#" data-disabled-service="kakao">
                 <div class="review-row">
                   <div class="icon-box">
                     <img alt="Kakao Map" src="https://www.google.com/s2/favicons?sz=64&domain=kakao.com">
@@ -563,14 +597,16 @@
                   <div class="btn-body">
                     <div class="btn-title-row">
                       <div class="btn-title">Kakao Map</div>
+                      <span class="btn-badge-disabled" id="kakaoBadge">준비중</span>
                     </div>
-                    <div class="btn-sub" id="kakaoSub">카카오맵에서 익숙하게 리뷰 작성</div>
+                    <div class="btn-sub" id="kakaoSub">카카오맵 리뷰 기능은 현재 준비중입니다</div>
+                    <div class="disabled-inline-notice" id="kakaoNotice"></div>
                   </div>
                   <div class="arrow">→</div>
                 </div>
               </a>
 
-              <a class="review-btn" href="https://naver.me/xmBCxZd6" target="_blank" rel="noreferrer">
+              <a class="review-btn disabled-link" href="#" data-disabled-service="naver">
                 <div class="review-row">
                   <div class="icon-box">
                     <img alt="Naver Map" src="https://www.google.com/s2/favicons?sz=64&domain=naver.com">
@@ -578,8 +614,10 @@
                   <div class="btn-body">
                     <div class="btn-title-row">
                       <div class="btn-title">Naver Map</div>
+                      <span class="btn-badge-disabled" id="naverBadge">준비중</span>
                     </div>
-                    <div class="btn-sub" id="naverSub">네이버 사용 고객에게 가장 익숙한 방식</div>
+                    <div class="btn-sub" id="naverSub">네이버 리뷰 기능은 현재 준비중입니다</div>
+                    <div class="disabled-inline-notice" id="naverNotice"></div>
                   </div>
                   <div class="arrow">→</div>
                 </div>
@@ -613,16 +651,12 @@
 
     <section class="bottom-grid">
       <div class="mini-card">
-        <h3 id="card1Title">상용화 포인트</h3>
-        <p id="card1Desc">이 페이지는 버튼 링크만 실제 리뷰 URL로 교체하면 바로 사용할 수 있는 구조입니다.</p>
+        <h3 id="card1Title">영업시간</h3>
+        <p id="card1Desc">일~목 open : 10:00a.m , close : 01:30a.m<br>금,토 open : 10:00a.m , close : 23:55 p.m</p>
       </div>
       <div class="mini-card">
-        <h3 id="card2Title">추천 배포 방식</h3>
-        <p id="card2Desc">Vercel, Netlify 같은 무료/저비용 호스팅에 연결하고 QR코드는 해당 주소로 생성하면 됩니다.</p>
-      </div>
-      <div class="mini-card">
-        <h3 id="card3Title">추가 가능 기능</h3>
-        <p id="card3Desc">방문자 클릭 수 집계, 언어 전환, 이벤트 안내, 쿠폰 문구, 관리자 링크 교체 기능도 붙일 수 있습니다.</p>
+        <h3 id="card2Title">Address / Contact</h3>
+        <p id="card2Desc">Address<br>서울 중구 을지로 255 기승빌딩 1층<br><br>Contact<br>010-4417-1443</p>
       </div>
     </section>
   </div>
@@ -649,17 +683,20 @@
         hashtagsHead: "아래 해시태그를 눌러 복사해서 리뷰에 활용해보세요.",
         googleBadge: "추천",
         googleSub: "구글 계정으로 빠르게 리뷰 남기기",
-        kakaoSub: "카카오맵에서 익숙하게 리뷰 작성",
-        naverSub: "네이버 사용 고객에게 가장 익숙한 방식",
+        kakaoBadge: "준비중",
+        kakaoSub: "카카오맵 리뷰 기능은 현재 준비중입니다",
+        naverBadge: "준비중",
+        naverSub: "네이버 리뷰 기능은 현재 준비중입니다",
         konestSub: "외국인 관광객과 여행객용 후기 채널",
+        disabledNotice: "준비중입니다. 곧 오픈될 예정입니다.",
         thanksTitle: "소중한 리뷰 감사합니다",
         thanksSub: "더 편리하고 친절한 서비스로 보답하겠습니다.",
-        card1Title: "상용화 포인트",
-        card1Desc: "이 페이지는 버튼 링크만 실제 리뷰 URL로 교체하면 바로 사용할 수 있는 구조입니다.",
-        card2Title: "추천 배포 방식",
-        card2Desc: "Vercel, Netlify 같은 무료/저비용 호스팅에 연결하고 QR코드는 해당 주소로 생성하면 됩니다.",
-        card3Title: "추가 가능 기능",
-        card3Desc: "방문자 클릭 수 집계, 언어 전환, 이벤트 안내, 쿠폰 문구, 관리자 링크 교체 기능도 붙일 수 있습니다.",
+        card1Title: "영업시간",
+        card1Desc: "일~목 open : 10:00a.m , close : 01:30a.m\n금,토 open : 10:00a.m , close : 23:55 p.m",
+        card2Title: "Address / Contact",
+        card2Desc: "Address\n서울 중구 을지로 255 기승빌딩 1층\n\nContact\n010-4417-1443",
+        card3Title: "Address / Contact",
+        card3Desc: "Address\n서울 중구 을지로 255 기승빌딩 1층\n\nContact\n010-4417-1443",
         copyMessage: "복사됨:",
         modeLabel: "thema",
         hashtags: ["#GRAY", "#DDP환전소", "#최고의 환전소", "#리뷰남기러가기", "#환전", "#수수료없음"]
@@ -681,17 +718,20 @@
         hashtagsHead: "Tap a hashtag below to copy it and use it in your review.",
         googleBadge: "Best",
         googleSub: "Quick review with your Google account",
-        kakaoSub: "Easy review on Kakao Map",
-        naverSub: "Most familiar for Naver users",
+        kakaoBadge: "Soon",
+        kakaoSub: "Kakao Map review feature is coming soon",
+        naverBadge: "Soon",
+        naverSub: "Naver review feature is coming soon",
         konestSub: "Review channel for tourists and foreign visitors",
+        disabledNotice: "Coming soon. This feature will open soon.",
         thanksTitle: "Thank you for your review",
         thanksSub: "We will repay you with better and friendlier service.",
-        card1Title: "Commercial-ready Point",
-        card1Desc: "This page is ready to use by simply replacing the button links with the real review URLs.",
-        card2Title: "Recommended Deployment",
-        card2Desc: "Connect it to low-cost hosting like Vercel or Netlify, then generate a QR code for the page URL.",
-        card3Title: "More Features",
-        card3Desc: "You can also add click tracking, language switching, event notices, coupon text, and admin link editing.",
+        card1Title: "Business Hours",
+        card1Desc: "Sun-Thu open : 10:00a.m , close : 01:30a.m\nFri, Sat open : 10:00a.m , close : 23:55 p.m",
+        card2Title: "Address / Contact",
+        card2Desc: "Address\n1F, Giseung Building, 255 Eulji-ro, Jung-gu, Seoul\n\nContact\n010-4417-1443",
+        card3Title: "Address / Contact",
+        card3Desc: "Address\n1F, Giseung Building, 255 Eulji-ro, Jung-gu, Seoul\n\nContact\n010-4417-1443",
         copyMessage: "Copied:",
         modeLabel: "thema",
         hashtags: ["#GRAY", "#DDPMoneyExchange", "#BestExchange", "#WriteAReview", "#currencyexchange", "#nocommission"]
@@ -713,17 +753,20 @@
         hashtagsHead: "下のハッシュタグを押すとコピーできます。レビューにご活用ください。",
         googleBadge: "おすすめ",
         googleSub: "Googleアカウントで素早くレビュー",
-        kakaoSub: "Kakao Mapで気軽にレビュー",
-        naverSub: "Naver利用者に最もなじみのある方法",
+        kakaoBadge: "準備中",
+        kakaoSub: "Kakao Map のレビュー機能は現在準備中です",
+        naverBadge: "準備中",
+        naverSub: "Naver のレビュー機能は現在準備中です",
         konestSub: "外国人旅行者向けレビュー案内",
+        disabledNotice: "準備中です。まもなく公開予定です。",
         thanksTitle: "大切なレビューをありがとうございます",
         thanksSub: "より便利で親切なサービスでお応えします。",
-        card1Title: "実用化ポイント",
-        card1Desc: "このページは、ボタンリンクを実際のレビューURLに差し替えるだけでそのまま使えます。",
-        card2Title: "おすすめ配布方法",
-        card2Desc: "VercelやNetlifyのような低コストホスティングに接続し、そのURLでQRコードを作成すれば使えます。",
-        card3Title: "追加できる機能",
-        card3Desc: "クリック数集計、言語切替、イベント案内、クーポン文言、管理者用リンク変更も追加できます。",
+        card1Title: "営業時間",
+        card1Desc: "日〜木 open : 10:00a.m , close : 01:30a.m\n金,土 open : 10:00a.m , close : 23:55 p.m",
+        card2Title: "住所 / 連絡先",
+        card2Desc: "住所\nソウル市 中区 乙支路255 ギスンビル 1階\n\n連絡先\n010-4417-1443",
+        card3Title: "住所 / 連絡先",
+        card3Desc: "住所\nソウル市 中区 乙支路255 ギスンビル 1階\n\n連絡先\n010-4417-1443",
         copyMessage: "コピーしました:",
         modeLabel: "thema",
         hashtags: ["#GRAY", "#DDP両替所", "#最高の両替所", "#レビューしに行こう", "#currencyexchange", "#nocommission"]
@@ -745,17 +788,20 @@
         hashtagsHead: "点击下方话题标签即可复制，并可用于您的评论。",
         googleBadge: "推荐",
         googleSub: "使用 Google 账号快速写评论",
-        kakaoSub: "在 Kakao Map 轻松写评论",
-        naverSub: "最适合 Naver 用户的方式",
+        kakaoBadge: "准备中",
+        kakaoSub: "Kakao Map 评论功能目前正在准备中",
+        naverBadge: "准备中",
+        naverSub: "Naver 评论功能目前正在准备中",
         konestSub: "适合外国游客的评论渠道",
+        disabledNotice: "正在准备中，预计很快开放。",
         thanksTitle: "感谢您的宝贵评论",
         thanksSub: "我们将以更方便、更友好的服务回馈您。",
-        card1Title: "商用要点",
-        card1Desc: "此页面只需替换按钮链接为真实评论网址即可直接使用。",
-        card2Title: "推荐部署方式",
-        card2Desc: "可连接到 Vercel、Netlify 等低成本托管平台，再将页面地址生成二维码即可。",
-        card3Title: "可追加功能",
-        card3Desc: "还可以添加点击统计、语言切换、活动公告、优惠券文案和管理员链接替换功能。",
+        card1Title: "营业时间",
+        card1Desc: "周日~周四 open : 10:00a.m , close : 01:30a.m\n周五,周六 open : 10:00a.m , close : 23:55 p.m",
+        card2Title: "地址 / 联系方式",
+        card2Desc: "地址\n首尔市中区乙支路255号 起承大厦1层\n\n联系方式\n010-4417-1443",
+        card3Title: "地址 / 联系方式",
+        card3Desc: "地址\n首尔市中区乙支路255号 起承大厦1层\n\n联系方式\n010-4417-1443",
         copyMessage: "已复制:",
         modeLabel: "thema",
         hashtags: ["#GRAY", "#DDP换钱所", "#超赞换钱所", "#去写评论吧", "#currencyexchange", "#nocommission"]
@@ -777,17 +823,20 @@
         hashtagsHead: "Нажмите на хэштег ниже, чтобы скопировать его и использовать в отзыве.",
         googleBadge: "Рекомендуем",
         googleSub: "Быстрый отзыв через аккаунт Google",
-        kakaoSub: "Удобный отзыв в Kakao Map",
-        naverSub: "Самый привычный способ для пользователей Naver",
+        kakaoBadge: "Скоро",
+        kakaoSub: "Функция отзывов Kakao Map скоро появится",
+        naverBadge: "Скоро",
+        naverSub: "Функция отзывов Naver скоро появится",
         konestSub: "Канал отзывов для туристов и иностранных гостей",
+        disabledNotice: "Скоро будет доступно. Эта функция скоро откроется.",
         thanksTitle: "Спасибо за ваш отзыв",
         thanksSub: "Мы ответим еще более удобным и доброжелательным сервисом.",
-        card1Title: "Преимущество для запуска",
-        card1Desc: "Эта страница готова к использованию: достаточно заменить ссылки кнопок на реальные URL отзывов.",
-        card2Title: "Рекомендуемое размещение",
-        card2Desc: "Подключите страницу к недорогому хостингу, например Vercel или Netlify, и создайте QR-код на этот адрес.",
-        card3Title: "Дополнительные функции",
-        card3Desc: "Можно добавить подсчет кликов, переключение языков, уведомления об акциях, купоны и замену админ-ссылок.",
+        card1Title: "Часы работы",
+        card1Desc: "Вс-Чт open : 10:00a.m , close : 01:30a.m\nПт,Сб open : 10:00a.m , close : 23:55 p.m",
+        card2Title: "Адрес / Контакт",
+        card2Desc: "Адрес\n1-й этаж, здание Giseung, Ыльджиро 255, Чун-гу, Сеул\n\nКонтакт\n010-4417-1443",
+        card3Title: "Адрес / Контакт",
+        card3Desc: "Адрес\n1-й этаж, здание Giseung, Ыльджиро 255, Чун-гу, Сеул\n\nКонтакт\n010-4417-1443",
         copyMessage: "Скопировано:",
         modeLabel: "thema",
         hashtags: ["#GRAY", "#обменвалютDDP", "#лучшийобменвалют", "#оставитьотзыв", "#currencyexchange", "#nocommission"]
@@ -845,6 +894,8 @@
         if (!el) return;
         if (id === "rightTitle") {
           el.innerHTML = t[id];
+        } else if (id === "card1Desc" || id === "card2Desc") {
+          el.innerHTML = t[id].replace(/\n/g, "<br>");
         } else {
           el.textContent = t[id];
         }
@@ -852,7 +903,27 @@
 
       renderHashtags(lang);
 
-      document.querySelectorAll(".lang").forEach((btn) => {
+      document.querySelectorAll(".review-btn.disabled-link").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        document.querySelectorAll(".disabled-inline-notice").forEach((n) => {
+          n.textContent = "";
+          n.classList.remove("show");
+        });
+        const service = btn.dataset.disabledService;
+        const notice = document.getElementById(service + "Notice");
+        if (!notice) return;
+        notice.textContent = translations[currentLang].disabledNotice || "";
+        notice.classList.add("show");
+        clearTimeout(window.__comingSoonTimer);
+        window.__comingSoonTimer = setTimeout(() => {
+          notice.classList.remove("show");
+          notice.textContent = "";
+        }, 1800);
+      });
+    });
+
+    document.querySelectorAll(".lang").forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.lang === lang);
       });
       document.documentElement.lang = lang === "ko" ? "ko" : lang;
